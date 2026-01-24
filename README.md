@@ -236,14 +236,14 @@ python generate_plots.py
 | `q1a_FashionMNIST_results.csv` | FashionMNIST best results summary |
 | `svm_results_q1b.csv` | Q1(b) SVM results |
 | `cpu_gpu_comparison_q2.csv` | Q2 CPU vs GPU comparison |
-| `Rollnumber_Name_Ass1.pdf` | Assignment report |
+| `M25CSA007_BhattVasishth_Ass1.pdf` | Assignment report |
 | `generate_plots.py` | Script to generate all visualizations |
 
 ---
 
 ## 📄 Report
 
-The detailed report with analysis is available in: [`Rollnumber_Name_Ass1.pdf`](Rollnumber_Name_Ass1.pdf)
+The detailed report with analysis is available in: [`M25CSA007_BhattVasishth_Ass1.pdf`](M25CSA007_BhattVasishth_Ass1.pdf)
 
 ---
 

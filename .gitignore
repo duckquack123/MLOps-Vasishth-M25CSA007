@@ -23,6 +23,7 @@ data/
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+*.tex
 
 # Large archives
 *.zip

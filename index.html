@@ -3,461 +3,1321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MLOps Assignment 1 - Vasishth (M25CSA007)</title>
+    <title>MLOps Assignment 1 - Vasishth Bhatt (M25CSA007)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --bg-color: #f8f9fa;
-            --text-color: #333;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--bg-color);
+            font-family: 'Poppins', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
         }
-        
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, var(--darker) 0%, #1e1b4b 50%, var(--dark) 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: bgMove 30s linear infinite;
+        }
+
+        @keyframes bgMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-60px); }
+        }
+
+        /* Floating Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 20s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 25s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 4s; animation-duration: 18s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 6s; animation-duration: 22s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 8s; animation-duration: 28s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 10s; animation-duration: 16s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 12s; animation-duration: 24s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 14s; animation-duration: 19s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 16s; animation-duration: 21s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        /* Header */
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 3rem 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 2rem;
+            position: relative;
         }
-        
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            animation: fadeInDown 1s ease;
         }
-        
-        header p {
+
+        .hero-badge i {
+            color: var(--secondary);
+            margin-right: 0.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light) 0%, var(--primary) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-author {
             font-size: 1.2rem;
-            opacity: 0.9;
+            color: var(--secondary);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.6s both;
         }
-        
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline:hover {
+            background: var(--glass);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator i {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-15px); }
+            60% { transform: translateX(-50%) translateY(-7px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        nav.visible {
+            transform: translateY(0);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--light);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         section {
-            background: white;
-            margin: 2rem 0;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 6rem;
+            animation: fadeInUp 1s ease both;
         }
-        
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
         h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
         }
-        
-        h3 {
-            color: var(--secondary-color);
-            margin: 1.5rem 0 1rem;
+
+        .section-desc {
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
         }
-        
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .stat-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--light) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Tables */
+        .table-container {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .table-header h3 {
+            font-size: 1.2rem;
+        }
+
+        .table-header i {
+            font-size: 1.5rem;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1rem 0;
         }
-        
+
         th, td {
-            padding: 12px;
+            padding: 1rem 1.5rem;
             text-align: center;
-            border: 1px solid #ddd;
         }
-        
+
         th {
-            background-color: var(--primary-color);
-            color: white;
+            background: rgba(99, 102, 241, 0.2);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--secondary);
         }
-        
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
+
+        tr {
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
         }
-        
+
         tr:hover {
-            background-color: #e8f4fc;
+            background: rgba(99, 102, 241, 0.1);
         }
-        
-        .best {
-            background-color: #d4edda !important;
-            font-weight: bold;
+
+        tr:last-child {
+            border-bottom: none;
         }
-        
-        .highlight {
-            color: var(--accent-color);
-            font-weight: bold;
+
+        .best-value {
+            color: var(--success);
+            font-weight: 700;
+            position: relative;
         }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin: 0.25rem;
+
+        .best-value::after {
+            content: '🏆';
+            position: absolute;
+            right: -25px;
+            font-size: 0.9rem;
         }
-        
-        .badge-success { background-color: #28a745; color: white; }
-        .badge-info { background-color: #17a2b8; color: white; }
-        .badge-warning { background-color: #ffc107; color: black; }
-        
-        .plot-container {
-            text-align: center;
-            margin: 1.5rem 0;
-        }
-        
-        .plot-container img {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-        }
-        
-        .summary-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin: 1rem 0;
-        }
-        
-        .summary-box h4 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .grid {
+
+        /* Result Cards */
+        .result-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
         }
-        
-        .card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        footer {
-            background: var(--primary-color);
-            color: white;
-            text-align: center;
+
+        .result-card {
+            background: linear-gradient(135deg, var(--glass) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
             padding: 2rem;
-            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
-        
-        footer a {
-            color: #3498db;
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            transition: all 0.3s ease;
         }
-        
-        .nav-links {
-            margin-top: 1rem;
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
         }
-        
-        .nav-links a {
-            color: white;
+
+        .result-card:hover::before {
+            opacity: 0.2;
+        }
+
+        .result-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .result-card h4 {
+            font-size: 1.1rem;
+        }
+
+        .result-card-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--success) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-card-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Plots Section */
+        .plots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .plot-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .plot-card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .plot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .plot-card-info {
+            padding: 1.5rem;
+        }
+
+        .plot-card-info h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .plot-card-info p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* GPU Comparison */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .speedup-card {
+            background: linear-gradient(135deg, var(--glass) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .speedup-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--success);
+        }
+
+        .speedup-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .speedup-label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Key Findings */
+        .findings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .finding-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .finding-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .finding-card:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+
+        .finding-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .finding-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
             text-decoration: none;
-            margin: 0 1rem;
-            padding: 0.5rem 1rem;
-            border: 2px solid white;
-            border-radius: 5px;
-            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
         }
-        
-        .nav-links a:hover {
-            background: white;
-            color: var(--primary-color);
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-copy {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .plots-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animations on Scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Code Style */
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(99, 102, 241, 0.2);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Glow Effects */
+        .glow {
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
         }
     </style>
 </head>
 <body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="nav-logo">🧠 MLOps</div>
+            <div class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#resnet">ResNet</a>
+                <a href="#svm">SVM</a>
+                <a href="#gpu">GPU</a>
+                <a href="#findings">Findings</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
     <header>
-        <h1>🧠 MLOps Assignment 1</h1>
-        <p>Deep Learning Experiments on MNIST and FashionMNIST</p>
-        <p><strong>Vasishth | M25CSA007</strong></p>
-        <div class="nav-links">
-            <a href="https://github.com/duckquack123/MLOps-Vasishth-M25CSA007">📂 Repository</a>
-            <a href="Rollnumber_Name_Ass1.pdf">📄 Report</a>
-            <a href="m25csa007-mldlops-assignment-1.ipynb">📓 Notebook</a>
+        <div class="hero-badge">
+            <i class="fas fa-microchip"></i>
+            Machine Learning Operations
+        </div>
+        <h1 class="glow-text">Assignment 1</h1>
+        <p class="hero-subtitle">Deep Learning Experiments on MNIST & FashionMNIST</p>
+        <p class="hero-author">
+            <i class="fas fa-user-graduate"></i> Vasishth Bhatt | M25CSA007
+        </p>
+        <div class="hero-buttons">
+            <a href="https://github.com/duckquack123/MLOps-Vasishth-M25CSA007" class="btn btn-primary">
+                <i class="fab fa-github"></i> View Repository
+            </a>
+            <a href="M25CSA007_BhattVasishth_Ass1.pdf" class="btn btn-outline">
+                <i class="fas fa-file-pdf"></i> Download Report
+            </a>
+            <a href="m25csa007-mldlops-assignment-1.ipynb" class="btn btn-outline">
+                <i class="fas fa-book"></i> Jupyter Notebook
+            </a>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
         </div>
     </header>
 
     <div class="container">
         <!-- Overview Section -->
-        <section>
-            <h2>📋 Overview</h2>
-            <p>This project compares deep learning models (ResNet-18, ResNet-50) and SVM classifiers on MNIST and FashionMNIST datasets, analyzing the impact of hyperparameters on performance and training efficiency.</p>
-            
-            <div class="grid" style="margin-top: 1.5rem;">
-                <div class="card">
-                    <h4>🎯 Datasets</h4>
-                    <p>MNIST & FashionMNIST</p>
-                    <p>70% Train | 10% Val | 20% Test</p>
+        <section id="overview" class="animate-on-scroll">
+            <div class="section-header">
+                <span class="section-badge">Overview</span>
+                <h2>Project Summary</h2>
+                <p class="section-desc">Comprehensive comparison of deep learning models and traditional machine learning on image classification tasks.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-database"></i></div>
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Datasets (MNIST & FashionMNIST)</div>
                 </div>
-                <div class="card">
-                    <h4>🏗️ Models</h4>
-                    <p>ResNet-18, ResNet-50, SVM</p>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-brain"></i></div>
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Model Architectures</div>
                 </div>
-                <div class="card">
-                    <h4>⚡ Features</h4>
-                    <p>AMP Training, CPU/GPU Comparison</p>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-flask"></i></div>
+                    <div class="stat-value">128+</div>
+                    <div class="stat-label">Experiments Run</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-value">99.01%</div>
+                    <div class="stat-label">Best Accuracy</div>
                 </div>
             </div>
         </section>
 
-        <!-- Q1(a) Results -->
-        <section>
-            <h2>📊 Q1(a): ResNet Classification Results</h2>
-            
-            <h3>MNIST Dataset</h3>
-            <table>
-                <tr>
-                    <th>Batch Size</th>
-                    <th>Optimizer</th>
-                    <th>Learning Rate</th>
-                    <th>ResNet-18</th>
-                    <th>ResNet-50</th>
-                </tr>
-                <tr>
-                    <td>16</td><td>SGD</td><td>0.001</td><td>98.95%</td><td>98.55%</td>
-                </tr>
-                <tr>
-                    <td>16</td><td>SGD</td><td>0.0001</td><td>98.48%</td><td>97.91%</td>
-                </tr>
-                <tr class="best">
-                    <td>16</td><td>Adam</td><td>0.001</td><td class="highlight">99.01%</td><td>98.31%</td>
-                </tr>
-                <tr>
-                    <td>16</td><td>Adam</td><td>0.0001</td><td>98.76%</td><td>97.74%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>SGD</td><td>0.001</td><td>98.82%</td><td class="highlight">98.70%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>SGD</td><td>0.0001</td><td>97.91%</td><td>96.87%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>Adam</td><td>0.001</td><td>98.78%</td><td>98.54%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>Adam</td><td>0.0001</td><td>98.66%</td><td>97.02%</td>
-                </tr>
-            </table>
-            
-            <div class="summary-box">
-                <h4>🏆 Best MNIST Result</h4>
-                <p><strong>99.01%</strong> - ResNet-18, Adam, lr=0.001, bs=16</p>
+        <!-- ResNet Results -->
+        <section id="resnet" class="animate-on-scroll">
+            <div class="section-header">
+                <span class="section-badge">Q1(a)</span>
+                <h2>ResNet Classification Results</h2>
+                <p class="section-desc">Grid search over batch sizes, optimizers, and learning rates for ResNet-18 and ResNet-50.</p>
             </div>
 
-            <h3>FashionMNIST Dataset</h3>
-            <table>
-                <tr>
-                    <th>Batch Size</th>
-                    <th>Optimizer</th>
-                    <th>Learning Rate</th>
-                    <th>ResNet-18</th>
-                    <th>ResNet-50</th>
-                </tr>
-                <tr>
-                    <td>16</td><td>SGD</td><td>0.001</td><td>90.06%</td><td>89.02%</td>
-                </tr>
-                <tr>
-                    <td>16</td><td>SGD</td><td>0.0001</td><td>88.66%</td><td>85.60%</td>
-                </tr>
-                <tr>
-                    <td>16</td><td>Adam</td><td>0.001</td><td>90.57%</td><td>87.42%</td>
-                </tr>
-                <tr>
-                    <td>16</td><td>Adam</td><td>0.0001</td><td>89.35%</td><td>87.91%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>SGD</td><td>0.001</td><td>89.93%</td><td>89.29%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>SGD</td><td>0.0001</td><td>87.86%</td><td>83.60%</td>
-                </tr>
-                <tr class="best">
-                    <td>32</td><td>Adam</td><td>0.001</td><td class="highlight">90.76%</td><td class="highlight">89.40%</td>
-                </tr>
-                <tr>
-                    <td>32</td><td>Adam</td><td>0.0001</td><td>89.69%</td><td>86.91%</td>
-                </tr>
-            </table>
-            
-            <div class="summary-box">
-                <h4>🏆 Best FashionMNIST Result</h4>
-                <p><strong>90.76%</strong> - ResNet-18, Adam, lr=0.001, bs=32</p>
+            <!-- Best Results Cards -->
+            <div class="result-cards" style="margin-bottom: 3rem;">
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <div class="result-card-icon"><i class="fas fa-star"></i></div>
+                        <div>
+                            <h4>Best MNIST</h4>
+                            <small style="color: #94a3b8;">ResNet-18</small>
+                        </div>
+                    </div>
+                    <div class="result-card-value">99.01%</div>
+                    <p class="result-card-desc">Adam optimizer, lr=0.001, batch_size=16</p>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <div class="result-card-icon"><i class="fas fa-star"></i></div>
+                        <div>
+                            <h4>Best FashionMNIST</h4>
+                            <small style="color: #94a3b8;">ResNet-18</small>
+                        </div>
+                    </div>
+                    <div class="result-card-value">90.76%</div>
+                    <p class="result-card-desc">Adam optimizer, lr=0.001, batch_size=32</p>
+                </div>
             </div>
 
-            <div class="plot-container">
-                <h3>Accuracy Comparison</h3>
-                <img src="plots/q1a_accuracy_comparison.png" alt="Q1a Accuracy Comparison">
+            <!-- MNIST Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <i class="fas fa-table"></i>
+                    <h3>MNIST Dataset - Test Classification Accuracy (%)</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batch Size</th>
+                            <th>Optimizer</th>
+                            <th>Learning Rate</th>
+                            <th>ResNet-18</th>
+                            <th>ResNet-50</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>16</td><td>SGD</td><td>0.001</td><td>98.95</td><td>98.55</td>
+                        </tr>
+                        <tr>
+                            <td>16</td><td>SGD</td><td>0.0001</td><td>98.48</td><td>97.91</td>
+                        </tr>
+                        <tr>
+                            <td>16</td><td>Adam</td><td>0.001</td><td class="best-value">99.01</td><td>98.31</td>
+                        </tr>
+                        <tr>
+                            <td>16</td><td>Adam</td><td>0.0001</td><td>98.76</td><td>97.74</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>SGD</td><td>0.001</td><td>98.82</td><td class="best-value">98.70</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>SGD</td><td>0.0001</td><td>97.91</td><td>96.87</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>Adam</td><td>0.001</td><td>98.78</td><td>98.54</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>Adam</td><td>0.0001</td><td>98.66</td><td>97.02</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            
-            <div class="plot-container">
-                <h3>Hyperparameter Analysis</h3>
-                <img src="plots/q1a_hyperparameter_analysis.png" alt="Q1a Hyperparameter Analysis">
-            </div>
-        </section>
 
-        <!-- Q1(b) SVM Results -->
-        <section>
-            <h2>📊 Q1(b): SVM Classification Results</h2>
-            
-            <div class="grid">
-                <div>
-                    <h3>MNIST - Best SVM</h3>
-                    <div class="summary-box">
-                        <h4>🏆 95.60%</h4>
-                        <p>RBF Kernel, C=10.0, gamma=scale</p>
+            <!-- FashionMNIST Table -->
+            <div class="table-container">
+                <div class="table-header">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>FashionMNIST Dataset - Test Classification Accuracy (%)</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Batch Size</th>
+                            <th>Optimizer</th>
+                            <th>Learning Rate</th>
+                            <th>ResNet-18</th>
+                            <th>ResNet-50</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>16</td><td>SGD</td><td>0.001</td><td>90.06</td><td>89.02</td>
+                        </tr>
+                        <tr>
+                            <td>16</td><td>SGD</td><td>0.0001</td><td>88.66</td><td>85.60</td>
+                        </tr>
+                        <tr>
+                            <td>16</td><td>Adam</td><td>0.001</td><td>90.57</td><td>87.42</td>
+                        </tr>
+                        <tr>
+                            <td>16</td><td>Adam</td><td>0.0001</td><td>89.35</td><td>87.91</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>SGD</td><td>0.001</td><td>89.93</td><td>89.29</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>SGD</td><td>0.0001</td><td>87.86</td><td>83.60</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>Adam</td><td>0.001</td><td class="best-value">90.76</td><td class="best-value">89.40</td>
+                        </tr>
+                        <tr>
+                            <td>32</td><td>Adam</td><td>0.0001</td><td>89.69</td><td>86.91</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Plots -->
+            <div class="plots-grid">
+                <div class="plot-card">
+                    <img src="plots/q1a_accuracy_comparison.png" alt="Accuracy Comparison">
+                    <div class="plot-card-info">
+                        <h4>Accuracy Comparison</h4>
+                        <p>Test accuracy across all configurations</p>
                     </div>
                 </div>
-                <div>
-                    <h3>FashionMNIST - Best SVM</h3>
-                    <div class="summary-box">
-                        <h4>🏆 86.30%</h4>
-                        <p>RBF Kernel, C=10.0, gamma=scale</p>
+                <div class="plot-card">
+                    <img src="plots/q1a_hyperparameter_analysis.png" alt="Hyperparameter Analysis">
+                    <div class="plot-card-info">
+                        <h4>Hyperparameter Analysis</h4>
+                        <p>Impact of different hyperparameters</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="plot-container">
-                <img src="plots/q1b_svm_accuracy.png" alt="SVM Accuracy">
+        <!-- SVM Results -->
+        <section id="svm" class="animate-on-scroll">
+            <div class="section-header">
+                <span class="section-badge">Q1(b)</span>
+                <h2>SVM Classification Results</h2>
+                <p class="section-desc">Support Vector Machine with Polynomial and RBF kernels.</p>
+            </div>
+
+            <div class="result-cards" style="margin-bottom: 3rem;">
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <div class="result-card-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div>
+                            <h4>Best MNIST SVM</h4>
+                            <small style="color: #94a3b8;">RBF Kernel</small>
+                        </div>
+                    </div>
+                    <div class="result-card-value">95.60%</div>
+                    <p class="result-card-desc">C=10.0, gamma=scale</p>
+                </div>
+                <div class="result-card">
+                    <div class="result-card-header">
+                        <div class="result-card-icon"><i class="fas fa-project-diagram"></i></div>
+                        <div>
+                            <h4>Best FashionMNIST SVM</h4>
+                            <small style="color: #94a3b8;">RBF Kernel</small>
+                        </div>
+                    </div>
+                    <div class="result-card-value">86.30%</div>
+                    <p class="result-card-desc">C=10.0, gamma=scale</p>
+                </div>
+            </div>
+
+            <div class="plots-grid">
+                <div class="plot-card">
+                    <img src="plots/q1b_svm_accuracy.png" alt="SVM Accuracy">
+                    <div class="plot-card-info">
+                        <h4>SVM Accuracy by Kernel</h4>
+                        <p>Comparison of polynomial vs RBF kernels</p>
+                    </div>
+                </div>
+                <div class="plot-card">
+                    <img src="plots/q1b_svm_training_time.png" alt="SVM Training Time">
+                    <div class="plot-card-info">
+                        <h4>SVM Training Time</h4>
+                        <p>Training efficiency across configurations</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Q2 CPU vs GPU -->
-        <section>
-            <h2>📊 Q2: CPU vs GPU Performance</h2>
-            
-            <h3>GPU Speedup Analysis</h3>
-            <table>
-                <tr>
-                    <th>Model</th>
-                    <th>CPU Time</th>
-                    <th>GPU Time</th>
-                    <th>Speedup</th>
-                </tr>
-                <tr>
-                    <td>ResNet-18 (SGD)</td>
-                    <td>341,621 ms</td>
-                    <td>62,967 ms</td>
-                    <td class="highlight">5.4x</td>
-                </tr>
-                <tr>
-                    <td>ResNet-18 (Adam)</td>
-                    <td>470,803 ms</td>
-                    <td>69,794 ms</td>
-                    <td class="highlight">6.7x</td>
-                </tr>
-                <tr>
-                    <td>ResNet-50 (SGD)</td>
-                    <td>1,064,108 ms</td>
-                    <td>111,651 ms</td>
-                    <td class="highlight">9.5x</td>
-                </tr>
-                <tr>
-                    <td>ResNet-50 (Adam)</td>
-                    <td>1,281,028 ms</td>
-                    <td>125,693 ms</td>
-                    <td class="highlight">10.2x</td>
-                </tr>
-            </table>
+        <!-- GPU Comparison -->
+        <section id="gpu" class="animate-on-scroll">
+            <div class="section-header">
+                <span class="section-badge">Q2</span>
+                <h2>CPU vs GPU Performance</h2>
+                <p class="section-desc">Training time and accuracy comparison between CPU and CUDA.</p>
+            </div>
 
-            <div class="plot-container">
-                <img src="plots/q2_training_time_comparison.png" alt="CPU vs GPU Training Time">
+            <div class="comparison-grid" style="margin-bottom: 3rem;">
+                <div class="speedup-card">
+                    <div class="speedup-value">5.4x</div>
+                    <div class="speedup-label">ResNet-18 (SGD)</div>
+                </div>
+                <div class="speedup-card">
+                    <div class="speedup-value">6.7x</div>
+                    <div class="speedup-label">ResNet-18 (Adam)</div>
+                </div>
+                <div class="speedup-card">
+                    <div class="speedup-value">9.5x</div>
+                    <div class="speedup-label">ResNet-50 (SGD)</div>
+                </div>
+                <div class="speedup-card">
+                    <div class="speedup-value">10.2x</div>
+                    <div class="speedup-label">ResNet-50 (Adam)</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-header">
+                    <i class="fas fa-microchip"></i>
+                    <h3>CPU vs GPU Training Comparison (FashionMNIST)</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Compute</th>
+                            <th>Model</th>
+                            <th>Optimizer</th>
+                            <th>Accuracy (%)</th>
+                            <th>Training Time (ms)</th>
+                            <th>FLOPs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CPU</td><td>ResNet-18</td><td>SGD</td><td>88.54</td><td>341,621</td><td>33.18M</td>
+                        </tr>
+                        <tr>
+                            <td>CPU</td><td>ResNet-18</td><td>Adam</td><td>88.23</td><td>470,803</td><td>33.18M</td>
+                        </tr>
+                        <tr>
+                            <td>CPU</td><td>ResNet-50</td><td>SGD</td><td>84.84</td><td>1,064,108</td><td>78.76M</td>
+                        </tr>
+                        <tr>
+                            <td>CPU</td><td>ResNet-50</td><td>Adam</td><td>87.11</td><td>1,281,028</td><td>78.76M</td>
+                        </tr>
+                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                            <td><strong>CUDA</strong></td><td>ResNet-18</td><td>SGD</td><td>87.97</td><td class="best-value" style="color: var(--success);">62,967</td><td>33.18M</td>
+                        </tr>
+                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                            <td><strong>CUDA</strong></td><td>ResNet-18</td><td>Adam</td><td>86.14</td><td style="color: var(--success);">69,794</td><td>33.18M</td>
+                        </tr>
+                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                            <td><strong>CUDA</strong></td><td>ResNet-50</td><td>SGD</td><td>84.18</td><td style="color: var(--success);">111,651</td><td>78.76M</td>
+                        </tr>
+                        <tr style="background: rgba(16, 185, 129, 0.1);">
+                            <td><strong>CUDA</strong></td><td>ResNet-50</td><td>Adam</td><td>86.96</td><td style="color: var(--success);">125,693</td><td>78.76M</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="plots-grid">
+                <div class="plot-card">
+                    <img src="plots/q2_training_time_comparison.png" alt="Training Time Comparison">
+                    <div class="plot-card-info">
+                        <h4>Training Time Comparison</h4>
+                        <p>CPU vs GPU training speed with speedup factors</p>
+                    </div>
+                </div>
+                <div class="plot-card">
+                    <img src="plots/q2_combined_results.png" alt="Combined Results">
+                    <div class="plot-card-info">
+                        <h4>Combined Results</h4>
+                        <p>Time and accuracy by model and optimizer</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Findings -->
+        <section id="findings" class="animate-on-scroll">
+            <div class="section-header">
+                <span class="section-badge">Analysis</span>
+                <h2>Key Findings</h2>
+                <p class="section-desc">Important insights from the experiments.</p>
+            </div>
+
+            <div class="findings-grid">
+                <div class="finding-card">
+                    <h4><i class="fas fa-layer-group"></i> Model Architecture</h4>
+                    <p>ResNet-18 consistently outperforms ResNet-50 on both datasets. Smaller models generalize better on relatively simple datasets, while larger models may overfit.</p>
+                </div>
+                <div class="finding-card">
+                    <h4><i class="fas fa-cogs"></i> Optimizer Choice</h4>
+                    <p>Adam optimizer achieves higher accuracy than SGD in most configurations. It converges faster and is less sensitive to learning rate choices.</p>
+                </div>
+                <div class="finding-card">
+                    <h4><i class="fas fa-sliders-h"></i> Learning Rate</h4>
+                    <p>lr=0.001 generally produces better results than lr=0.0001, enabling faster convergence within limited epochs.</p>
+                </div>
+                <div class="finding-card">
+                    <h4><i class="fas fa-bolt"></i> GPU Acceleration</h4>
+                    <p>GPU provides 5-10x speedup over CPU, with larger speedups for bigger models. Mixed precision training further improves performance.</p>
+                </div>
+                <div class="finding-card">
+                    <h4><i class="fas fa-chart-bar"></i> DL vs ML</h4>
+                    <p>Deep learning (ResNet) significantly outperforms traditional SVM: 99.01% vs 95.60% on MNIST, 90.76% vs 86.30% on FashionMNIST.</p>
+                </div>
+                <div class="finding-card">
+                    <h4><i class="fas fa-boxes"></i> Batch Size</h4>
+                    <p>Smaller batch sizes (16) provide more regularization, while larger batches (32) offer better GPU utilization and stability.</p>
+                </div>
             </div>
         </section>
 
         <!-- Best Models Summary -->
-        <section>
-            <h2>🏆 Best Models Summary</h2>
-            <table>
-                <tr>
-                    <th>Task</th>
-                    <th>Dataset</th>
-                    <th>Model</th>
-                    <th>Configuration</th>
-                    <th>Accuracy</th>
-                </tr>
-                <tr class="best">
-                    <td>Q1(a)</td>
-                    <td>MNIST</td>
-                    <td>ResNet-18</td>
-                    <td>Adam, lr=0.001, bs=16</td>
-                    <td class="highlight">99.01%</td>
-                </tr>
-                <tr class="best">
-                    <td>Q1(a)</td>
-                    <td>FashionMNIST</td>
-                    <td>ResNet-18</td>
-                    <td>Adam, lr=0.001, bs=32</td>
-                    <td class="highlight">90.76%</td>
-                </tr>
-                <tr>
-                    <td>Q1(b)</td>
-                    <td>MNIST</td>
-                    <td>SVM (RBF)</td>
-                    <td>C=10.0, gamma=scale</td>
-                    <td>95.60%</td>
-                </tr>
-                <tr>
-                    <td>Q1(b)</td>
-                    <td>FashionMNIST</td>
-                    <td>SVM (RBF)</td>
-                    <td>C=10.0, gamma=scale</td>
-                    <td>86.30%</td>
-                </tr>
-            </table>
-        </section>
+        <section class="animate-on-scroll">
+            <div class="section-header">
+                <span class="section-badge">Summary</span>
+                <h2>Best Models</h2>
+            </div>
 
-        <!-- Key Findings -->
-        <section>
-            <h2>📈 Key Findings</h2>
-            <div class="grid">
-                <div class="card">
-                    <h4>🏗️ Model Architecture</h4>
-                    <p>ResNet-18 consistently outperforms ResNet-50 on both datasets. Smaller models generalize better on simple datasets.</p>
+            <div class="table-container glow">
+                <div class="table-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Overall Best Results</h3>
                 </div>
-                <div class="card">
-                    <h4>⚙️ Optimizer</h4>
-                    <p>Adam optimizer achieves higher accuracy than SGD and converges faster with less sensitivity to learning rate.</p>
-                </div>
-                <div class="card">
-                    <h4>📊 Learning Rate</h4>
-                    <p>lr=0.001 generally produces better results than lr=0.0001 for faster convergence in limited epochs.</p>
-                </div>
-                <div class="card">
-                    <h4>⚡ GPU Performance</h4>
-                    <p>GPU provides 5-10x speedup over CPU, with larger speedups for bigger models (ResNet-50).</p>
-                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Task</th>
+                            <th>Dataset</th>
+                            <th>Model</th>
+                            <th>Configuration</th>
+                            <th>Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Q1(a)</td>
+                            <td>MNIST</td>
+                            <td>ResNet-18</td>
+                            <td>Adam, lr=0.001, bs=16</td>
+                            <td class="best-value">99.01%</td>
+                        </tr>
+                        <tr>
+                            <td>Q1(a)</td>
+                            <td>FashionMNIST</td>
+                            <td>ResNet-18</td>
+                            <td>Adam, lr=0.001, bs=32</td>
+                            <td class="best-value">90.76%</td>
+                        </tr>
+                        <tr>
+                            <td>Q1(b)</td>
+                            <td>MNIST</td>
+                            <td>SVM (RBF)</td>
+                            <td>C=10.0, gamma=scale</td>
+                            <td>95.60%</td>
+                        </tr>
+                        <tr>
+                            <td>Q1(b)</td>
+                            <td>FashionMNIST</td>
+                            <td>SVM (RBF)</td>
+                            <td>C=10.0, gamma=scale</td>
+                            <td>86.30%</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
 
+    <!-- Footer -->
     <footer>
-        <p><strong>MLOps Assignment 1</strong> | Vasishth (M25CSA007)</p>
-        <p>
-            <a href="https://github.com/duckquack123/MLOps-Vasishth-M25CSA007">GitHub Repository</a> | 
-            <a href="Rollnumber_Name_Ass1.pdf">Download Report</a>
-        </p>
-        <p style="margin-top: 1rem; opacity: 0.7;">Last Updated: January 2026</p>
+        <div class="footer-content">
+            <div class="footer-logo">🧠 MLOps Assignment 1</div>
+            <p style="color: #94a3b8; margin-bottom: 1rem;">Deep Learning Experiments on MNIST & FashionMNIST</p>
+            <div class="footer-links">
+                <a href="https://github.com/duckquack123/MLOps-Vasishth-M25CSA007">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="M25CSA007_BhattVasishth_Ass1.pdf">
+                    <i class="fas fa-file-pdf"></i> Report
+                </a>
+                <a href="m25csa007-mldlops-assignment-1.ipynb">
+                    <i class="fas fa-book"></i> Notebook
+                </a>
+            </div>
+            <p class="footer-copy">
+                <strong>Vasishth Bhatt</strong> | M25CSA007<br>
+                Last Updated: January 2026
+            </p>
+        </div>
     </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('visible');
+            } else {
+                navbar.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Animate on scroll
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        animateElements.forEach(el => observer.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Counter animation for stats
+        const counters = document.querySelectorAll('.stat-value');
+        
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = counter.innerText;
+                const isPercent = target.includes('%');
+                const numTarget = parseFloat(target.replace('%', '').replace('+', ''));
+                const count = 0;
+                const speed = 50;
+                
+                const inc = numTarget / speed;
+                
+                const animate = () => {
+                    const current = parseFloat(counter.innerText.replace('%', '').replace('+', ''));
+                    if (current < numTarget) {
+                        counter.innerText = (current + inc).toFixed(target.includes('.') ? 2 : 0) + (isPercent ? '%' : (target.includes('+') ? '+' : ''));
+                        requestAnimationFrame(animate);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                
+                animate();
+            };
+            
+            // Only run animation when element is visible
+            const statObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    updateCount();
+                    statObserver.disconnect();
+                }
+            });
+            
+            statObserver.observe(counter);
+        });
+    </script>
 </body>
 </html>
