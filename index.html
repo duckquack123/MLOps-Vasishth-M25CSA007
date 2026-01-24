@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps Assignment 1 - Vasishth (M25CSA007)</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #e8f4fc;
+        }
+        
+        .best {
+            background-color: #d4edda !important;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin: 0.25rem;
+        }
+        
+        .badge-success { background-color: #28a745; color: white; }
+        .badge-info { background-color: #17a2b8; color: white; }
+        .badge-warning { background-color: #ffc107; color: black; }
+        
+        .plot-container {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .plot-container img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        .summary-box h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        footer a {
+            color: #3498db;
+        }
+        
+        .nav-links {
+            margin-top: 1rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            padding: 0.5rem 1rem;
+            border: 2px solid white;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🧠 MLOps Assignment 1</h1>
+        <p>Deep Learning Experiments on MNIST and FashionMNIST</p>
+        <p><strong>Vasishth | M25CSA007</strong></p>
+        <div class="nav-links">
+            <a href="https://github.com/duckquack123/MLOps-Vasishth-M25CSA007">📂 Repository</a>
+            <a href="Rollnumber_Name_Ass1.pdf">📄 Report</a>
+            <a href="m25csa007-mldlops-assignment-1.ipynb">📓 Notebook</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Overview Section -->
+        <section>
+            <h2>📋 Overview</h2>
+            <p>This project compares deep learning models (ResNet-18, ResNet-50) and SVM classifiers on MNIST and FashionMNIST datasets, analyzing the impact of hyperparameters on performance and training efficiency.</p>
+            
+            <div class="grid" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h4>🎯 Datasets</h4>
+                    <p>MNIST & FashionMNIST</p>
+                    <p>70% Train | 10% Val | 20% Test</p>
+                </div>
+                <div class="card">
+                    <h4>🏗️ Models</h4>
+                    <p>ResNet-18, ResNet-50, SVM</p>
+                </div>
+                <div class="card">
+                    <h4>⚡ Features</h4>
+                    <p>AMP Training, CPU/GPU Comparison</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Q1(a) Results -->
+        <section>
+            <h2>📊 Q1(a): ResNet Classification Results</h2>
+            
+            <h3>MNIST Dataset</h3>
+            <table>
+                <tr>
+                    <th>Batch Size</th>
+                    <th>Optimizer</th>
+                    <th>Learning Rate</th>
+                    <th>ResNet-18</th>
+                    <th>ResNet-50</th>
+                </tr>
+                <tr>
+                    <td>16</td><td>SGD</td><td>0.001</td><td>98.95%</td><td>98.55%</td>
+                </tr>
+                <tr>
+                    <td>16</td><td>SGD</td><td>0.0001</td><td>98.48%</td><td>97.91%</td>
+                </tr>
+                <tr class="best">
+                    <td>16</td><td>Adam</td><td>0.001</td><td class="highlight">99.01%</td><td>98.31%</td>
+                </tr>
+                <tr>
+                    <td>16</td><td>Adam</td><td>0.0001</td><td>98.76%</td><td>97.74%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>SGD</td><td>0.001</td><td>98.82%</td><td class="highlight">98.70%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>SGD</td><td>0.0001</td><td>97.91%</td><td>96.87%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>Adam</td><td>0.001</td><td>98.78%</td><td>98.54%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>Adam</td><td>0.0001</td><td>98.66%</td><td>97.02%</td>
+                </tr>
+            </table>
+            
+            <div class="summary-box">
+                <h4>🏆 Best MNIST Result</h4>
+                <p><strong>99.01%</strong> - ResNet-18, Adam, lr=0.001, bs=16</p>
+            </div>
+
+            <h3>FashionMNIST Dataset</h3>
+            <table>
+                <tr>
+                    <th>Batch Size</th>
+                    <th>Optimizer</th>
+                    <th>Learning Rate</th>
+                    <th>ResNet-18</th>
+                    <th>ResNet-50</th>
+                </tr>
+                <tr>
+                    <td>16</td><td>SGD</td><td>0.001</td><td>90.06%</td><td>89.02%</td>
+                </tr>
+                <tr>
+                    <td>16</td><td>SGD</td><td>0.0001</td><td>88.66%</td><td>85.60%</td>
+                </tr>
+                <tr>
+                    <td>16</td><td>Adam</td><td>0.001</td><td>90.57%</td><td>87.42%</td>
+                </tr>
+                <tr>
+                    <td>16</td><td>Adam</td><td>0.0001</td><td>89.35%</td><td>87.91%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>SGD</td><td>0.001</td><td>89.93%</td><td>89.29%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>SGD</td><td>0.0001</td><td>87.86%</td><td>83.60%</td>
+                </tr>
+                <tr class="best">
+                    <td>32</td><td>Adam</td><td>0.001</td><td class="highlight">90.76%</td><td class="highlight">89.40%</td>
+                </tr>
+                <tr>
+                    <td>32</td><td>Adam</td><td>0.0001</td><td>89.69%</td><td>86.91%</td>
+                </tr>
+            </table>
+            
+            <div class="summary-box">
+                <h4>🏆 Best FashionMNIST Result</h4>
+                <p><strong>90.76%</strong> - ResNet-18, Adam, lr=0.001, bs=32</p>
+            </div>
+
+            <div class="plot-container">
+                <h3>Accuracy Comparison</h3>
+                <img src="plots/q1a_accuracy_comparison.png" alt="Q1a Accuracy Comparison">
+            </div>
+            
+            <div class="plot-container">
+                <h3>Hyperparameter Analysis</h3>
+                <img src="plots/q1a_hyperparameter_analysis.png" alt="Q1a Hyperparameter Analysis">
+            </div>
+        </section>
+
+        <!-- Q1(b) SVM Results -->
+        <section>
+            <h2>📊 Q1(b): SVM Classification Results</h2>
+            
+            <div class="grid">
+                <div>
+                    <h3>MNIST - Best SVM</h3>
+                    <div class="summary-box">
+                        <h4>🏆 95.60%</h4>
+                        <p>RBF Kernel, C=10.0, gamma=scale</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>FashionMNIST - Best SVM</h3>
+                    <div class="summary-box">
+                        <h4>🏆 86.30%</h4>
+                        <p>RBF Kernel, C=10.0, gamma=scale</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plot-container">
+                <img src="plots/q1b_svm_accuracy.png" alt="SVM Accuracy">
+            </div>
+        </section>
+
+        <!-- Q2 CPU vs GPU -->
+        <section>
+            <h2>📊 Q2: CPU vs GPU Performance</h2>
+            
+            <h3>GPU Speedup Analysis</h3>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>CPU Time</th>
+                    <th>GPU Time</th>
+                    <th>Speedup</th>
+                </tr>
+                <tr>
+                    <td>ResNet-18 (SGD)</td>
+                    <td>341,621 ms</td>
+                    <td>62,967 ms</td>
+                    <td class="highlight">5.4x</td>
+                </tr>
+                <tr>
+                    <td>ResNet-18 (Adam)</td>
+                    <td>470,803 ms</td>
+                    <td>69,794 ms</td>
+                    <td class="highlight">6.7x</td>
+                </tr>
+                <tr>
+                    <td>ResNet-50 (SGD)</td>
+                    <td>1,064,108 ms</td>
+                    <td>111,651 ms</td>
+                    <td class="highlight">9.5x</td>
+                </tr>
+                <tr>
+                    <td>ResNet-50 (Adam)</td>
+                    <td>1,281,028 ms</td>
+                    <td>125,693 ms</td>
+                    <td class="highlight">10.2x</td>
+                </tr>
+            </table>
+
+            <div class="plot-container">
+                <img src="plots/q2_training_time_comparison.png" alt="CPU vs GPU Training Time">
+            </div>
+        </section>
+
+        <!-- Best Models Summary -->
+        <section>
+            <h2>🏆 Best Models Summary</h2>
+            <table>
+                <tr>
+                    <th>Task</th>
+                    <th>Dataset</th>
+                    <th>Model</th>
+                    <th>Configuration</th>
+                    <th>Accuracy</th>
+                </tr>
+                <tr class="best">
+                    <td>Q1(a)</td>
+                    <td>MNIST</td>
+                    <td>ResNet-18</td>
+                    <td>Adam, lr=0.001, bs=16</td>
+                    <td class="highlight">99.01%</td>
+                </tr>
+                <tr class="best">
+                    <td>Q1(a)</td>
+                    <td>FashionMNIST</td>
+                    <td>ResNet-18</td>
+                    <td>Adam, lr=0.001, bs=32</td>
+                    <td class="highlight">90.76%</td>
+                </tr>
+                <tr>
+                    <td>Q1(b)</td>
+                    <td>MNIST</td>
+                    <td>SVM (RBF)</td>
+                    <td>C=10.0, gamma=scale</td>
+                    <td>95.60%</td>
+                </tr>
+                <tr>
+                    <td>Q1(b)</td>
+                    <td>FashionMNIST</td>
+                    <td>SVM (RBF)</td>
+                    <td>C=10.0, gamma=scale</td>
+                    <td>86.30%</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Key Findings -->
+        <section>
+            <h2>📈 Key Findings</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>🏗️ Model Architecture</h4>
+                    <p>ResNet-18 consistently outperforms ResNet-50 on both datasets. Smaller models generalize better on simple datasets.</p>
+                </div>
+                <div class="card">
+                    <h4>⚙️ Optimizer</h4>
+                    <p>Adam optimizer achieves higher accuracy than SGD and converges faster with less sensitivity to learning rate.</p>
+                </div>
+                <div class="card">
+                    <h4>📊 Learning Rate</h4>
+                    <p>lr=0.001 generally produces better results than lr=0.0001 for faster convergence in limited epochs.</p>
+                </div>
+                <div class="card">
+                    <h4>⚡ GPU Performance</h4>
+                    <p>GPU provides 5-10x speedup over CPU, with larger speedups for bigger models (ResNet-50).</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p><strong>MLOps Assignment 1</strong> | Vasishth (M25CSA007)</p>
+        <p>
+            <a href="https://github.com/duckquack123/MLOps-Vasishth-M25CSA007">GitHub Repository</a> | 
+            <a href="Rollnumber_Name_Ass1.pdf">Download Report</a>
+        </p>
+        <p style="margin-top: 1rem; opacity: 0.7;">Last Updated: January 2026</p>
+    </footer>
+</body>
+</html>

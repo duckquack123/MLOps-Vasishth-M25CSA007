@@ -1,0 +1,4 @@
+theme: jekyll-theme-cayman
+title: MLOps Assignment 1
+description: Deep Learning Experiments on MNIST and FashionMNIST
+show_downloads: true
