@@ -84,7 +84,7 @@ print(f"\nOverall Accuracy: {overall_acc * 100:.2f}%")
 # F1 Score
 # ==========================
 # Get unique classes present in predictions and labels
-unique_classes = sorted(set(all_labels + all_preds))
+unique_classes = sorted(set(all_labels.tolist() + all_preds.tolist()))
 present_class_names = [class_names[i] for i in unique_classes if i < len(class_names)]
 
 macro_f1 = f1_score(all_labels, all_preds, average='macro', labels=unique_classes, zero_division=0)

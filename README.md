@@ -218,7 +218,7 @@ docker build -t ml-evaluation:latest .
 **Run evaluation in Docker:**
 ```bash
 # With GPU support
-docker run --gpus all -v $(pwd)/data/test:/app/data/test ml-evaluation:latest
+docker run --gpus all -v $(pwd)/data/test:/app/data/test ml-evaluation:v1
 
 # CPU only
 docker run -v $(pwd)/data/test:/app/data/test ml-evaluation:latest
