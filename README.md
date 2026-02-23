@@ -107,12 +107,13 @@ train_dataset, test_dataset, tokenizer = load_and_prepare_data()
 ## 📈 Model Performance
 
 The fine-tuned model achieves the following metrics on the IMDB test set:
-- Accuracy: ~XX%
-- F1 Score: ~XX%
-- Precision: ~XX%
-- Recall: ~XX%
+- **Accuracy**: 84.80%
+- **F1 Score**: 84.66%
+- **Precision**: 85.48%
+- **Recall**: 83.86%
+- **Eval Loss**: 0.360
 
-(Check `results/eval_results.json` for detailed metrics)
+Results after 5 epochs of fine-tuning on the IMDB dataset. Check `results/eval_results.json` for detailed metrics.
 
 ## 🔧 Configuration
 
