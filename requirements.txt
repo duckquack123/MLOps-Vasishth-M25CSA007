@@ -15,6 +15,11 @@ protobuf
 
 # ML Utilities
 scikit-learn
+pandas
+
+# Data Loading & Processing
+requests
+gdown
 
 # Jupyter Notebook (optional, for experimentation)
 jupyter

@@ -1,21 +1,37 @@
-# MLOps Assignment 3: Fine-Tuning BERT for Sentiment Classification
+# MLOps Assignment 3: Fine-Tuning DistilBERT for Book Genre Classification
 
-This project demonstrates fine-tuning a BERT model (bert-tiny) on the IMDB dataset for sentiment classification using Hugging Face Transformers. The project includes training, evaluation, and deployment using Docker containers.
+This project demonstrates fine-tuning a DistilBERT model on the Goodreads book reviews dataset for multi-class genre classification using Hugging Face Transformers. The project includes training, evaluation, and deployment using Docker containers.
 
 ## 📋 Project Overview
 
-- **Model**: `prajjwal1/bert-tiny` (fine-tuned version available at `DuckyDuck123/bert-tiny-imdb`)
-- **Dataset**: IMDB Movie Reviews (sentiment classification)
+- **Model**: `distilbert-base-cased` (fine-tuned version available at `DuckyDuck123/bert-goodreads-genres`)
+- **Dataset**: Goodreads Book Reviews (8-genre classification)
 - **Framework**: PyTorch, Hugging Face Transformers
-- **Task**: Binary sentiment classification (positive/negative)
+- **Task**: Multi-class genre classification (8 genres)
+
+## 📚 Dataset
+
+The project uses the [Goodreads book reviews dataset](https://mengtingwan.github.io/data/goodreads.html#datasets) which includes reviews across 8 different genres:
+
+1. Poetry
+2. Children
+3. Comics & Graphic
+4. Fantasy & Paranormal
+5. History & Biography
+6. Mystery, Thriller & Crime
+7. Romance
+8. Young Adult
+
+Each genre has reviews sampled from the full dataset, with default configuration of 800 training and 200 test samples per genre.
 
 ## 🚀 Features
 
-- Fine-tuning BERT model for text classification
+- Fine-tuning DistilBERT model for multi-class text classification
 - Automated training pipeline with checkpointing
-- Comprehensive model evaluation with metrics
+- Comprehensive model evaluation with macro-averaged metrics
 - Docker containerization for training and evaluation
 - Model versioning and Hugging Face Hub integration
+- Goodreads dataset loading and preprocessing
 
 ## 📁 Project Structure
 
@@ -98,29 +114,41 @@ This will:
 
 ### Data Preparation
 
+The project includes automated data loading from Goodreads:
+
 ```python
+from transformers import DistilBertTokenizerFast
 from src.data import load_and_prepare_data
 
-train_dataset, test_dataset, tokenizer = load_and_prepare_data()
+tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-cased")
+train_dataset, test_dataset, label_encoder = load_and_prepare_data(tokenizer)
 ```
+
+The data module handles:
+- Downloading gzipped JSON reviews from Goodreads
+- Sampling and splitting data into train/test sets
+- Encoding genre labels
+- Tokenization with DistilBERT tokenizer
 
 ## 📈 Model Performance
 
-The fine-tuned model achieves the following metrics on the IMDB test set:
-- **Accuracy**: 84.80%
-- **F1 Score**: 84.66%
-- **Precision**: 85.48%
-- **Recall**: 83.86%
-- **Eval Loss**: 0.360
+The fine-tuned DistilBERT model will be evaluated on the Goodreads test set with the following metrics:
+- **Accuracy**: Overall classification accuracy
+- **F1 Score**: Macro-averaged F1 score across all genres
+- **Precision**: Macro-averaged precision
+- **Recall**: Macro-averaged recall
 
-Results after 5 epochs of fine-tuning on the IMDB dataset. Check `results/eval_results.json` for detailed metrics.
+Results will be saved to `results/eval_results.json` after training completes.
 
 ## 🔧 Configuration
 
 Key configurations in `src/train.py`:
-- `MODEL_NAME`: Base model from Hugging Face
+- `MODEL_NAME`: Base model from Hugging Face (`distilbert-base-cased`)
 - `OUTPUT_DIR`: Directory to save checkpoints
 - `HF_REPO`: Hugging Face Hub repository name
+- `MAX_LENGTH`: Maximum sequence length (512 tokens)
+- `TRAIN_SIZE`: Training samples per genre (800)
+- `TEST_SIZE`: Test samples per genre (200)
 - Training parameters: batch size, learning rate, epochs, etc.
 
 ## 📦 Requirements
@@ -161,12 +189,12 @@ This project is created for educational purposes as part of MLOps coursework.
 
 ## 🔗 Links
 
-- Hugging Face Model: [DuckyDuck123/bert-tiny-imdb](https://huggingface.co/DuckyDuck123/bert-tiny-imdb)
-- Base Model: [prajjwal1/bert-tiny](https://huggingface.co/prajjwal1/bert-tiny)
-- Dataset: [IMDB Movie Reviews](https://huggingface.co/datasets/imdb)
+- Hugging Face Model: [DuckyDuck123/bert-goodreads-genres](https://huggingface.co/DuckyDuck123/bert-goodreads-genres)
+- Base Model: [distilbert-base-cased](https://huggingface.co/distilbert-base-cased)
+- Dataset: [Goodreads Book Reviews](https://mengtingwan.github.io/data/goodreads.html#datasets)
 
 ## 📚 References
 
 - [Hugging Face Transformers Documentation](https://huggingface.co/docs/transformers)
-- [BERT: Pre-training of Deep Bidirectional Transformers](https://arxiv.org/abs/1810.04805)
-- [IMDB Dataset Paper](https://ai.stanford.edu/~amaas/data/sentiment/)
+- [DistilBERT: Distilled version of BERT](https://arxiv.org/abs/1910.01108)
+- [Goodreads Dataset Paper](https://cseweb.ucsd.edu/~jmcauley/pdfs/recsys17.pdf)
