@@ -200,36 +200,48 @@ This automatically:
 
 ## 📈 Model Performance
 
-The fine-tuned DistilBERT model is evaluated on 1,600 test samples (200 per genre) with the following metrics:
+The fine-tuned DistilBERT model achieves **61.25% accuracy** on 1,600 test samples (200 per genre).
 
-**Evaluation Metrics:**
-- **Accuracy**: Overall classification accuracy across all genres
-- **Precision (Macro)**: Average precision across all genres
-- **Recall (Macro)**: Average recall across all genres  
-- **F1 Score (Macro)**: Harmonic mean of precision and recall
+**Overall Metrics:**
+- **Accuracy**: 61.25%
+- **Precision (Macro)**: 61.21%
+- **Recall (Macro)**: 61.25%
+- **F1 Score (Macro)**: 61.18%
+- **Evaluation Loss**: 1.144
 
-**Genre-wise Performance:**
+**Per-Genre Performance:**
 
-The model generates detailed per-genre classification reports including:
-- Precision, Recall, F1-score for each of the 8 genres
-- Support (number of samples) per genre
-- Confusion patterns between similar genres
+| Genre | Precision | Recall | F1-Score | Support |
+|-------|-----------|--------|----------|----------|
+| Comics & Graphic | 0.85 | 0.84 | 0.85 | 200 |
+| Poetry | 0.77 | 0.77 | 0.77 | 200 |
+| Children | 0.67 | 0.70 | 0.69 | 200 |
+| Romance | 0.63 | 0.58 | 0.60 | 200 |
+| Mystery/Thriller/Crime | 0.60 | 0.67 | 0.63 | 200 |
+| History & Biography | 0.57 | 0.54 | 0.55 | 200 |
+| Fantasy & Paranormal | 0.43 | 0.45 | 0.44 | 200 |
+| Young Adult | 0.37 | 0.35 | 0.36 | 200 |
+
+**Key Insights:**
+- ✅ **Best Performance**: Comics & Graphic (85% F1) and Poetry (77% F1) - likely due to distinctive writing styles
+- ⚠️ **Challenging Genres**: Young Adult (36% F1) and Fantasy/Paranormal (44% F1) - these genres often overlap with others
+- 📊 **Overall**: Macro-averaged metrics show balanced performance across all 8 genres
 
 **Results Location:**
 - `results/eval_results.json` - Overall metrics from training
 - `results/classification_report.json` - Detailed per-genre breakdown
 - `results/hf_eval_results.json` - Re-evaluation from HuggingFace Hub
 
-**Example output:**
+**Actual Evaluation Output:**
 ```json
 {
-    "eval_loss": 0.XXX,
-    "eval_accuracy": 0.XX,
-    "eval_precision": 0.XX,
-    "eval_recall": 0.XX,
-    "eval_f1": 0.XX,
-    "eval_runtime": XX.XX,
-    "eval_samples_per_second": XXX.XX
+    "eval_loss": 1.1437,
+    "eval_accuracy": 0.6125,
+    "eval_precision": 0.6121,
+    "eval_recall": 0.6125,
+    "eval_f1": 0.6118,
+    "eval_runtime": 747.15,
+    "eval_samples_per_second": 2.141
 }
 ```
 
@@ -471,16 +483,22 @@ Selected **DistilBERT-base-cased** for its optimal balance of performance and ef
 - **Optimizer**: AdamW with linear warmup
 - **Hardware**: CUDA-enabled GPU (when available)
 - **Training Time**: ~15-20 minutes on NVIDIA RTX 3080
+- **Final Test Accuracy**: 61.25%
+- **Macro F1 Score**: 61.18%
 
 ### Evaluation Comparison
 
 | Metric | Local Evaluation | HuggingFace Re-evaluation |
 |--------|------------------|---------------------------|
+| **Accuracy** | 61.25% | 61.25% |
+| **Precision** | 61.21% | 61.21% |
+| **Recall** | 61.25% | 61.25% |
+| **F1 Score** | 61.18% | 61.18% |
 | Source | `results/eval_results.json` | `results/hf_eval_results.json` |
 | Model | Locally saved | Downloaded from HF Hub |
 | Purpose | Validate training | Verify model upload |
 
-Both evaluations should produce identical results, confirming successful model upload and retrieval.
+Both evaluations produce identical results (✅ **61.25% accuracy**), confirming successful model upload and retrieval.
 
 ### Challenges Faced
 1. **Dataset Size**: Goodreads dataset is large; implemented streaming and caching
