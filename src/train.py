@@ -2,6 +2,7 @@ import os
 import numpy as np
 import json
 import pickle
+import torch
 from transformers import (
     DistilBertTokenizerFast,
     DistilBertForSequenceClassification,
@@ -28,6 +29,20 @@ TEST_SIZE = 200   # Reviews per genre for testing
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
+
+# -----------------------------
+# Check GPU availability
+# -----------------------------
+print("="*50)
+print("Hardware Configuration")
+print("="*50)
+if torch.cuda.is_available():
+    print(f"✓ GPU available: {torch.cuda.get_device_name(0)}")
+    print(f"  Number of GPUs: {torch.cuda.device_count()}")
+    print(f"  CUDA Version: {torch.version.cuda}")
+else:
+    print("⚠ No GPU detected - training will use CPU (slower)")
+print("="*50 + "\n")
 
 # -----------------------------
 # Load tokenizer
@@ -70,6 +85,14 @@ model = DistilBertForSequenceClassification.from_pretrained(
     id2label=id2label,
     label2id=label2id
 )
+
+# Verify model device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Model will use device: {device}")
+if torch.cuda.is_available():
+    print(f"✓ Model will train on CUDA GPU")
+else:
+    print(f"⚠ Model will train on CPU")
 
 # -----------------------------
 # Metrics
@@ -134,6 +157,10 @@ trainer = Trainer(
 # -----------------------------
 print("\n" + "="*50)
 print("Starting training...")
+if torch.cuda.is_available():
+    print(f"✓ Training on GPU: {torch.cuda.get_device_name(0)}")
+else:
+    print("⚠ Training on CPU")
 print("="*50 + "\n")
 trainer.train()
 
