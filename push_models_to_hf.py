@@ -10,7 +10,7 @@ from huggingface_hub import login, upload_file, create_repo, HfApi
 
 # Configuration
 HF_TOKEN = os.getenv("HF_TOKEN")
-HF_USER = "duckquack123"
+HF_USER = os.getenv("HF_USERNAME", "DuckyDuck123")
 
 MODELS = [
     {

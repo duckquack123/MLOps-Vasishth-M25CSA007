@@ -17,6 +17,7 @@ python push_models_to_hf.py
 ### Q1: ViT-S LoRA Best Model (Optuna)
 
 **Repository**: https://huggingface.co/duckquack123/vit-s-cifar100-lora-best
+**Repository**: https://huggingface.co/DuckyDuck123/vit-s-cifar100-lora-best
 
 Using Python script (from Q1/):
 ```bash
@@ -63,6 +64,7 @@ EOF
 ### Q2: ResNet-18 Clean Classifier
 
 **Repository**: https://huggingface.co/duckquack123/resnet18-cifar10-clean
+**Repository**: https://huggingface.co/DuckyDuck123/resnet18-cifar10-clean
 
 ```bash
 python << 'EOF'
@@ -85,6 +87,7 @@ EOF
 ### Q2: PGD Adversarial Detector
 
 **Repository**: https://huggingface.co/duckquack123/resnet34-pgd-detector
+**Repository**: https://huggingface.co/DuckyDuck123/resnet34-pgd-detector
 
 ```bash
 python << 'EOF'
@@ -107,6 +110,7 @@ EOF
 ### Q2: BIM Adversarial Detector
 
 **Repository**: https://huggingface.co/duckquack123/resnet34-bim-detector
+**Repository**: https://huggingface.co/DuckyDuck123/resnet34-bim-detector
 
 ```bash
 python << 'EOF'
@@ -293,6 +297,13 @@ huggingface-cli login --token $HF_TOKEN
 **Q2 PGD Detector**: https://huggingface.co/duckquack123/resnet34-pgd-detector
 
 **Q2 BIM Detector**: https://huggingface.co/duckquack123/resnet34-bim-detector
+**Q1 Model**: https://huggingface.co/DuckyDuck123/vit-s-cifar100-lora-best
+
+**Q2 Classifier**: https://huggingface.co/DuckyDuck123/resnet18-cifar10-clean
+
+**Q2 PGD Detector**: https://huggingface.co/DuckyDuck123/resnet34-pgd-detector
+
+**Q2 BIM Detector**: https://huggingface.co/DuckyDuck123/resnet34-bim-detector
 
 ---
 
