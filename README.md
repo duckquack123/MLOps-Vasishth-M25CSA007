@@ -53,15 +53,8 @@ pip install "adversarial-robustness-toolbox[pytorch]>=1.17.1"
 
 ## Environment Variables
 
-Set these before running (or pass with `-e` to Docker):
 
-| Variable | Description | Default |
-|---|---|---|
-| `WANDB_API_KEY` | Your WandB API key | — |
-| `WANDB_PROJECT` | WandB project name | `ass5-q1-vit-lora` / `ass5-q2-adversarial` |
-| `WANDB_ENTITY` | WandB username/team | `None` |
-| `HF_TOKEN` | HuggingFace write token | — |
-| `HF_USERNAME` | HuggingFace username | `your-hf-username` |
+
 
 ---
 
@@ -173,16 +166,18 @@ python detect_bim.py --checkpoint checkpoints/resnet18_cifar10_best.pt \
 
 | Experiment | Rank | Alpha | Dropout | Epoch | Train Loss | Val Loss | Train Acc | Val Acc |
 |---|---|---|---|---|---|---|---|---|
-| Baseline (no LoRA) | — | — | — | 10 | — | — | — | — |
-| 1 | 2 | 2 | 0.1 | 10 | — | — | — | — |
-| 2 | 2 | 4 | 0.1 | 10 | — | — | — | — |
-| 3 | 2 | 8 | 0.1 | 10 | — | — | — | — |
-| 4 | 4 | 2 | 0.1 | 10 | — | — | — | — |
-| 5 | 4 | 4 | 0.1 | 10 | — | — | — | — |
-| 6 | 4 | 8 | 0.1 | 10 | — | — | — | — |
-| 7 | 8 | 2 | 0.1 | 10 | — | — | — | — |
-| 8 | 8 | 4 | 0.1 | 10 | — | — | — | — |
-| 9 | 8 | 8 | 0.1 | 10 | — | — | — | — |
+| Baseline (no LoRA) | — | — | — | 10 | 1.2263 | 1.4459 | 0.8928 | 0.8126 |
+| 1 | 2 | 2 | 0.1 | 10 | 0.9215 | 1.0966 | 0.9714 | 0.9072 |
+| 2 | 2 | 4 | 0.1 | 10 | 0.9139 | 1.1012 | 0.9744 | 0.9035 |
+| 3 | 2 | 8 | 0.1 | 10 | 0.9127 | 1.0999 | 0.9743 | 0.9024 |
+| 4 | 4 | 2 | 0.1 | 10 | 0.9010 | 1.0933 | 0.9774 | 0.9046 |
+| 5 | 4 | 4 | 0.1 | 10 | 0.8865 | 1.0875 | 0.9820 | 0.9081 |
+| 6 | 4 | 8 | 0.1 | 10 | 0.8798 | 1.0891 | 0.9842 | 0.9047 |
+| 7 | 8 | 2 | 0.1 | 10 | 0.8866 | 1.0826 | 0.9811 | 0.9084 |
+| 8 | 8 | 4 | 0.1 | 10 | 0.8678 | 1.0852 | 0.9872 | 0.9068 |
+| 9 | 8 | 8 | 0.1 | 10 | 0.8530 | 1.0918 | 0.9905 | 0.9027 |
+
+Note: Baseline values are from baseline run summary; LoRA rows are final-epoch metrics from WandB run summaries.
 
 ### Test Results Table
 
