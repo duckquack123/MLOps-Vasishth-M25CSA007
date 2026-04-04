@@ -1,0 +1,18 @@
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git wget curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt /app/requirements.txt
+# ART requires extra torch-related deps
+RUN pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir "adversarial-robustness-toolbox[pytorch]>=1.17.1"
+
+COPY . /app
+
+ENV WANDB_PROJECT=ass5-q2-adversarial
+
+WORKDIR /app/Q2

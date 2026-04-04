@@ -1,0 +1,22 @@
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+
+WORKDIR /app
+
+# Install system deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git wget curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for layer caching
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project
+COPY . /app
+
+# Default env vars (override at runtime)
+ENV WANDB_PROJECT=ass5-q1-vit-lora
+ENV HF_USERNAME=DuckyDuck123
+# Pass WANDB_API_KEY and HF_TOKEN at runtime via: docker run -e WANDB_API_KEY=... -e HF_TOKEN=...
+
+WORKDIR /app/Q1

@@ -1,0 +1,8 @@
+{
+  "LoRA layers": "yes",
+  "Rank": 2,
+  "Alpha": 4.0,
+  "Dropout": 0.1,
+  "Overall Test Acc (%)": "90.36",
+  "Trainable Params": "0"
+}

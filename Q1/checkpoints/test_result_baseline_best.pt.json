@@ -1,0 +1,8 @@
+{
+  "LoRA layers": "no",
+  "Rank": "\u2014",
+  "Alpha": "\u2014",
+  "Dropout": "\u2014",
+  "Overall Test Acc (%)": "81.26",
+  "Trainable Params": "21,704,164"
+}
