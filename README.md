@@ -264,8 +264,26 @@ python detect_bim.py --checkpoint checkpoints/resnet18_cifar10_best.pt \
 
 - **WandB Q1 Project**: [Add your vit_cifar100_q1 project link]
 - **WandB Q2 Project**: [Add your adversarial_robustness_q2 project link]
-- **HuggingFace Best Model**: [Add your pushed ViT-LoRA model link]
-- **GitHub Branch**: Assignment-5
+- **HuggingFace Best Model (Q1 - Optuna Best)**: 
+  - Expected: https://huggingface.co/duckquack123/vit-s-cifar100-lora-best
+  - Status: 📤 Ready to push (adapter weights, 1.1 MB)
+  - Accuracy: 90.69% test, 91.05% validation
+  - Command: `python Q1/push_to_hub.py --checkpoint checkpoints/lora_r8_a4_d0.1_best`
+- **HuggingFace Alternative (Q1 - Highest Test Acc)**:
+  - Expected: https://huggingface.co/duckquack123/vit-s-cifar100-lora-best-acc
+  - Status: 📤 Optional (highest test accuracy 90.82%)
+- **HuggingFace Q2 Classifier**:
+  - Expected: https://huggingface.co/duckquack123/resnet18-cifar10-clean
+  - Status: 📤 Ready to push (43 MB)
+  - Accuracy: 89.86% clean accuracy
+- **HuggingFace Q2 PGD Detector**:
+  - Expected: https://huggingface.co/duckquack123/resnet34-pgd-detector
+  - Status: 📤 Ready to push (82 MB)
+  - Accuracy: 98.30% detection
+- **HuggingFace Q2 BIM Detector**:
+  - Expected: https://huggingface.co/duckquack123/resnet34-bim-detector
+  - Status: 📤 Ready to push (82 MB)
+  - Accuracy: 86.02% detection
 
 ---
 
