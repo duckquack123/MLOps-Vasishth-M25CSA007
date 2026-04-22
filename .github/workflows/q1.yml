@@ -2,23 +2,24 @@ name: Q1 Docker Build
 
 on:
   push:
-    branches: [ "question1" ]
+    branches: [ "q1" ]
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: :contentReference[oaicite:0]{index=0}@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Docker
-      uses: :contentReference[oaicite:1]{index=1}@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Build Docker image
-      run: docker build -t q1-app .
+      - name: Build Docker image
+        run: docker build -t q1-app .
 
-    - name: Run container
-      run: docker run --rm q1-app
+      # Optional: run the container (recommended for your assignment)
+      - name: Run container
+        run: docker run --rm q1-app
