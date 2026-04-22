@@ -50,4 +50,4 @@ print(f"\nBLEU Score: {bleu.score:.2f}")
 # --------- FIRST SENTENCE ----------
 if translated_sentences:
     print("\nFirst translated sentence:")
-    print(translated_sentences[0])
+    print(translated_sentences[1])
