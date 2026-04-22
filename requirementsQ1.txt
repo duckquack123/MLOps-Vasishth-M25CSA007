@@ -1,0 +1,6 @@
+transformers
+sentencepiece
+torch
+sacrebleu
+striprtf
+numpy<2
