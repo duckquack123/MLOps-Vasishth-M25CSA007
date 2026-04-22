@@ -6,7 +6,12 @@ from PIL import Image
 import os
 
 # =========================
-# MODEL DEFINITION
+# FORCE CPU (FIXES CUDA ERROR)
+# =========================
+device = torch.device("cpu")
+
+# =========================
+# MODEL
 # =========================
 
 class DoubleConv(nn.Module):
@@ -85,19 +90,19 @@ class SimpleUNet(nn.Module):
 @st.cache_resource
 def load_model():
     model = SimpleUNet(n_channels=3, n_classes=23)
-    model.load_state_dict(torch.load('Question2/unet_model.pth', map_location='cpu'))
+    model.load_state_dict(torch.load('Question2/unet_model.pth', map_location=device))
+    model.to(device)
     model.eval()
     return model
 
 
 # =========================
-# COLOR MAP (IMPORTANT FIX)
+# COLOR MAP
 # =========================
 
 def create_color_map(num_classes=23):
     np.random.seed(42)
-    colors = np.random.randint(0, 255, (num_classes, 3))
-    return colors
+    return np.random.randint(0, 255, (num_classes, 3))
 
 COLOR_MAP = create_color_map()
 
@@ -113,6 +118,26 @@ def decode_mask(mask):
 
 
 # =========================
+# FIX MASK LOADING
+# =========================
+
+def get_mask_path(file_name):
+    mask_dir = "CameraMask"
+    mask_path = os.path.join(mask_dir, file_name)
+
+    if os.path.exists(mask_path):
+        return mask_path
+
+    # fallback search
+    base = os.path.splitext(file_name)[0]
+    for f in os.listdir(mask_dir):
+        if base in f:
+            return os.path.join(mask_dir, f)
+
+    return None
+
+
+# =========================
 # STREAMLIT UI
 # =========================
 
@@ -123,7 +148,7 @@ page = st.sidebar.radio("Go to", ["Training Metrics", "Inference"])
 
 
 # =========================
-# TRAINING PAGE
+# PAGE 1: METRICS
 # =========================
 
 if page == "Training Metrics":
@@ -133,30 +158,32 @@ if page == "Training Metrics":
         col1, col2 = st.columns(2)
 
         with col1:
-            st.image("Question2/train_loss.png", caption="Loss Curve")
+            st.image("Question2/train_loss.png", caption="Training Loss")
 
         with col2:
-            st.image("Question2/metrics.png", caption="mIoU / mDice")
+            st.image("Question2/metrics.png", caption="mIoU & mDice")
 
         with open('Question2/test_metrics.txt', 'r') as f:
             miou, mdice = map(float, f.read().split(','))
 
-        st.info(f"mIoU: {miou:.4f}\n\nmDice: {mdice:.4f}")
+        st.success(f"mIoU: {miou:.4f} | mDice: {mdice:.4f}")
 
     except:
         st.error("Training files not found.")
 
 
 # =========================
-# INFERENCE PAGE
+# PAGE 2: INFERENCE
 # =========================
 
 elif page == "Inference":
 
     st.title("Segmentation Inference")
 
+    st.info("Running on CPU (stable mode)")
+
     uploaded_files = st.file_uploader(
-        "Upload exactly 4 images",
+        "Upload exactly 4 test images",
         type=["png", "jpg", "jpeg"],
         accept_multiple_files=True
     )
@@ -164,7 +191,7 @@ elif page == "Inference":
     if uploaded_files:
 
         if len(uploaded_files) != 4:
-            st.warning("Upload exactly 4 images")
+            st.warning("Please upload exactly 4 images")
 
         else:
             model = load_model()
@@ -176,38 +203,35 @@ elif page == "Inference":
 
                 col1, col2, col3 = st.columns(3)
 
-                # ---- INPUT IMAGE ----
+                # INPUT IMAGE
                 image = Image.open(file).convert("RGB")
                 image_resized = image.resize((256, 256))
 
                 img_array = np.array(image_resized).astype(np.float32) / 255.0
+                img_tensor = torch.tensor(img_array).permute(2, 0, 1).unsqueeze(0).to(device)
 
-                # 🔥 IMPORTANT FIX: normalize (if used during training)
-                img_array = (img_array - 0.5) / 0.5
-
-                img_tensor = torch.tensor(img_array).permute(2, 0, 1).unsqueeze(0)
-
-                # ---- MODEL PREDICTION ----
+                # PREDICTION
                 with torch.no_grad():
                     output = model(img_tensor)
                     pred_mask = torch.argmax(output, dim=1).squeeze(0).cpu().numpy()
 
-                # ---- GT MASK ----
-                mask_path = os.path.join('data/CameraMask', file.name)
+                # GROUND TRUTH
+                mask_path = get_mask_path(file.name)
 
-                if os.path.exists(mask_path):
+                if mask_path:
                     gt_mask = Image.open(mask_path).convert("L").resize((256, 256), Image.NEAREST)
                     gt_mask = np.array(gt_mask)
                 else:
+                    st.warning(f"Mask not found for {file.name}")
                     gt_mask = np.zeros((256, 256), dtype=np.uint8)
 
-                # ---- COLORIZE ----
+                # COLORIZE
                 pred_colored = decode_mask(pred_mask)
                 gt_colored = decode_mask(gt_mask)
 
-                # ---- DISPLAY ----
+                # DISPLAY
                 with col1:
-                    st.image(image_resized, caption="Input")
+                    st.image(image_resized, caption="Input Image")
 
                 with col2:
                     st.image(gt_colored, caption="Ground Truth")
